@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,7 +10,9 @@
         android:id="@+id/textViewVacationListTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="My Vacations"
         android:textColor="@android:color/black"
         android:textSize="24sp"
@@ -18,31 +21,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editTextSearchVacations"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Search vacations or hotels"
+        android:inputType="text"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewVacationListTitle" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVacations"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddVacation"
+        app:layout_constraintBottom_toTopOf="@id/buttonAddVacation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewVacationListTitle" />
+        app:layout_constraintTop_toBottomOf="@id/editTextSearchVacations" />
 
     <TextView
         android:id="@+id/textViewNoVacations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No vacations added yet."
+        android:text="No vacations found."
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewVacations"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerViewVacations"
-        app:layout_constraintStart_toStartOf="@+id/recyclerViewVacations"
-        app:layout_constraintTop_toTopOf="@+id/recyclerViewVacations" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerViewVacations"
+        app:layout_constraintEnd_toEndOf="@id/recyclerViewVacations"
+        app:layout_constraintStart_toStartOf="@id/recyclerViewVacations"
+        app:layout_constraintTop_toTopOf="@id/recyclerViewVacations" />
 
     <Button
         android:id="@+id/buttonAddVacation"

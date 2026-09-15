@@ -26,6 +26,13 @@ public interface VacationDao {
     @Query("SELECT * FROM vacations ORDER BY startDate ASC")
     List<Vacation> getAllVacations();
 
+    // Searches vacations by title or hotel
+    @Query("SELECT * FROM vacations " +
+            "WHERE title LIKE '%' || :searchText || '%' " +
+            "OR hotel LIKE '%' || :searchText || '%' " +
+            "ORDER BY startDate ASC")
+    List<Vacation> searchVacations(String searchText);
+
     // Retrieves one vacation
     @Query("SELECT * FROM vacations WHERE id = :vacationId LIMIT 1")
     Vacation getVacationById(int vacationId);

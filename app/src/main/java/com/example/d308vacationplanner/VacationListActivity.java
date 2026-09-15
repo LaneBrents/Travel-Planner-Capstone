@@ -1,5 +1,8 @@
 package com.example.d308vacationplanner;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -22,6 +25,8 @@ public class VacationListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView noVacationsTextView;
+
+    private EditText searchEditText;
     private VacationAdapter adapter;
 
     private final List<Vacation> vacationList = new ArrayList<>();
@@ -36,6 +41,7 @@ public class VacationListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewVacations);
         noVacationsTextView = findViewById(R.id.textViewNoVacations);
+        searchEditText = findViewById(R.id.editTextSearchVacations);
         Button addVacationButton = findViewById(R.id.buttonAddVacation);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,14 +68,39 @@ public class VacationListActivity extends AppCompatActivity {
         });
 
         loadVacations();
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(
+                    CharSequence s,
+                    int start,
+                    int count,
+                    int after) {
+            }
+
+            @Override
+            public void onTextChanged(
+                    CharSequence s,
+                    int start,
+                    int before,
+                    int count) {
+
+                searchVacations(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (database != null) {
-            loadVacations();
+        if (database != null && searchEditText != null) {
+            searchVacations(searchEditText.getText().toString());
         }
     }
 
@@ -78,6 +109,37 @@ public class VacationListActivity extends AppCompatActivity {
             List<Vacation> vacations = database.vacationDao().getAllVacations();
 
             runOnUiThread(() -> {
+                vacationList.clear();
+                vacationList.addAll(vacations);
+                adapter.notifyDataSetChanged();
+
+                if (vacationList.isEmpty()) {
+                    noVacationsTextView.setVisibility(TextView.VISIBLE);
+                    recyclerView.setVisibility(RecyclerView.GONE);
+                } else {
+                    noVacationsTextView.setVisibility(TextView.GONE);
+                    recyclerView.setVisibility(RecyclerView.VISIBLE);
+                }
+            });
+        });
+    }
+
+    private void searchVacations(String searchText) {
+
+        executorService.execute(() -> {
+
+            List<Vacation> vacations;
+
+            if (searchText.trim().isEmpty()) {
+                vacations = database.vacationDao().getAllVacations();
+            } else {
+                vacations = database.vacationDao().searchVacations(
+                        searchText.trim()
+                );
+            }
+
+            runOnUiThread(() -> {
+
                 vacationList.clear();
                 vacationList.addAll(vacations);
                 adapter.notifyDataSetChanged();

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 // Representing a database table for Vacations
 @Entity(tableName = "vacations")
-public class Vacation {
+public class Vacation extends TravelItem{
 
     // Generating a unique ID for every vacation
     @PrimaryKey(autoGenerate = true)
@@ -81,5 +81,15 @@ public class Vacation {
 
     public void setEndAlert(boolean endAlert) {
         this.endAlert = endAlert;
+    }
+
+    @Override
+    public String getItemType() {
+        return "Vacation";
+    }
+
+    @Override
+    public String getDisplayDate() {
+        return startDate + " - " + endDate;
     }
 }

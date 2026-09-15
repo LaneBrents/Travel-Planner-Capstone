@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "excursions")
-public class Excursion {
+public class Excursion extends TravelItem{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -50,5 +50,15 @@ public class Excursion {
 
     public void setVacationId(int vacationId) {
         this.vacationId = vacationId;
+    }
+
+    @Override
+    public String getItemType() {
+        return "Excursion";
+    }
+
+    @Override
+    public String getDisplayDate() {
+        return date;
     }
 }

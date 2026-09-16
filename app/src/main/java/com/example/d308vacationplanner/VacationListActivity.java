@@ -43,6 +43,7 @@ public class VacationListActivity extends AppCompatActivity {
         noVacationsTextView = findViewById(R.id.textViewNoVacations);
         searchEditText = findViewById(R.id.editTextSearchVacations);
         Button addVacationButton = findViewById(R.id.buttonAddVacation);
+        Button viewReportButton = findViewById(R.id.buttonViewReport);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -64,6 +65,15 @@ public class VacationListActivity extends AppCompatActivity {
                     VacationDetailActivity.class);
 
             intent.putExtra("vacationId", -1);
+            startActivity(intent);
+        });
+
+        viewReportButton.setOnClickListener(view -> {
+            Intent intent = new Intent(
+                    VacationListActivity.this,
+                    ReportActivity.class
+            );
+
             startActivity(intent);
         });
 

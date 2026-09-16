@@ -40,4 +40,11 @@ public interface VacationDao {
     // Checks whether excursions are attached
     @Query("SELECT COUNT(*) FROM excursions WHERE vacationId = :vacationId")
     int getExcursionCount(int vacationId);
+
+    // Retrieves vacation information for the report
+    @Query("SELECT v.title, v.hotel, v.startDate, v.endDate, " +
+            "(SELECT COUNT(*) FROM excursions e " +
+            "WHERE e.vacationId = v.id) AS excursionCount " +
+            "FROM vacations v ORDER BY v.startDate ASC")
+    List<VacationReportRow> getVacationReport();
 }

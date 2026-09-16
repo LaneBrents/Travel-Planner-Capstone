@@ -136,6 +136,12 @@ public class ExcursionDetailActivity extends AppCompatActivity {
         String date =
                 dateEditText.getText().toString().trim();
 
+        if (title.length() > 100) {
+            titleEditText.setError("Excursion title must be 100 characters or less");
+            titleEditText.requestFocus();
+            return;
+        }
+
         if (title.isEmpty()) {
             titleEditText.setError(
                     "Enter an excursion title"

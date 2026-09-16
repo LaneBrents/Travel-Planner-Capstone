@@ -219,6 +219,18 @@ public class VacationDetailActivity extends AppCompatActivity {
         String startDate = startDateEditText.getText().toString().trim();
         String endDate = endDateEditText.getText().toString().trim();
 
+        if (title.length() > 100) {
+            titleEditText.setError("Vacation title must be 100 characters or less");
+            titleEditText.requestFocus();
+            return;
+        }
+
+        if (hotel.length() > 100) {
+            hotelEditText.setError("Hotel or place must be 100 characters or less");
+            hotelEditText.requestFocus();
+            return;
+        }
+
         if (title.isEmpty()) {
             titleEditText.setError("Enter a vacation title");
             titleEditText.requestFocus();

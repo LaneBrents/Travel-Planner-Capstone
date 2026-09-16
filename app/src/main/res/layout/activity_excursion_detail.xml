@@ -52,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="MM/dd/yyyy"
-            android:inputType="text"
+            android:inputType="date"
+            android:singleLine="true"
             android:textColor="@android:color/black"
             android:textColorHint="@android:color/darker_gray" />
 
@@ -68,7 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Delete Excursion" />
+            android:text="Delete Excursion"
+            android:contentDescription="Delete this excursion" />
 
     </LinearLayout>
 

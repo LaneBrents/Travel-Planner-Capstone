@@ -69,6 +69,7 @@
             android:layout_height="wrap_content"
             android:hint="MM/dd/yyyy"
             android:inputType="date"
+            android:singleLine="true"
             android:minHeight="48dp" />
 
         <TextView
@@ -86,6 +87,7 @@
             android:layout_height="wrap_content"
             android:hint="MM/dd/yyyy"
             android:inputType="date"
+            android:singleLine="true"
             android:minHeight="48dp" />
 
         <TextView
@@ -122,6 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Delete Vacation"
+            android:contentDescription="Delete this vacation"
             android:visibility="gone" />
 
         <Button

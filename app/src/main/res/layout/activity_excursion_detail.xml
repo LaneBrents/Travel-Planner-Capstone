@@ -9,21 +9,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="16dp">
 
+        <!-- Screen Title -->
         <TextView
             android:id="@+id/textViewExcursionDetailTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Excursion"
             android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Excursion Information -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Excursion Information"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="Excursion Title"
             android:textColor="@android:color/black"
             android:textSize="16sp"
@@ -35,6 +46,8 @@
             android:layout_height="wrap_content"
             android:hint="Enter excursion title"
             android:inputType="text"
+            android:singleLine="true"
+            android:minHeight="48dp"
             android:textColor="@android:color/black"
             android:textColorHint="@android:color/darker_gray" />
 
@@ -54,14 +67,25 @@
             android:hint="MM/dd/yyyy"
             android:inputType="date"
             android:singleLine="true"
+            android:minHeight="48dp"
             android:textColor="@android:color/black"
             android:textColorHint="@android:color/darker_gray" />
+
+        <!-- Actions -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Actions"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/buttonSaveExcursion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="Save Excursion" />
 
         <Button

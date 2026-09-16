@@ -231,6 +231,7 @@ public class ExcursionDetailActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT
                     ).show();
 
+                    setResult(RESULT_OK);
                     finish();
                 });
 
@@ -252,6 +253,7 @@ public class ExcursionDetailActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT
                     ).show();
 
+                    setResult(RESULT_OK);
                     finish();
                 });
             }
@@ -276,6 +278,7 @@ public class ExcursionDetailActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT
                 ).show();
 
+                setResult(RESULT_OK);
                 finish();
             });
         });

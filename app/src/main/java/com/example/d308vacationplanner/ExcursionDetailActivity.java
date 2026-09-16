@@ -21,8 +21,6 @@ import com.example.d308vacationplanner.database.AppDatabase;
 import com.example.d308vacationplanner.database.Excursion;
 import com.example.d308vacationplanner.database.Vacation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -45,9 +43,6 @@ public class ExcursionDetailActivity extends AppCompatActivity {
 
     private Excursion currentExcursion;
     private Vacation vacation;
-
-    private final SimpleDateFormat dateFormat =
-            new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +131,8 @@ public class ExcursionDetailActivity extends AppCompatActivity {
         String date =
                 dateEditText.getText().toString().trim();
 
-        if (title.length() > 100) {
-            titleEditText.setError("Excursion title must be 100 characters or less");
+        if (!ValidationUtils.isValidTitle(title)) {
+            titleEditText.setError("Excursion title must be between 1 and 100 characters");
             titleEditText.requestFocus();
             return;
         }
@@ -158,16 +153,14 @@ public class ExcursionDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // B5: Validate excursion date format.
-        if (!isValidDate(date)) {
-            dateEditText.setError(
-                    "Use the format MM/dd/yyyy"
-            );
+        // Validate excursion date format.
+        if (!ValidationUtils.isValidDate(date)) {
+            dateEditText.setError("Enter a valid date (MM/dd/yyyy)");
             dateEditText.requestFocus();
             return;
         }
 
-        Date excursionDate = parseDate(date);
+        Date excursionDate = ValidationUtils.parseDate(date);
 
         if (excursionDate == null) {
             return;
@@ -191,16 +184,16 @@ public class ExcursionDetailActivity extends AppCompatActivity {
             }
 
             Date vacationStart =
-                    parseDate(associatedVacation.getStartDate());
+                    ValidationUtils.parseDate(associatedVacation.getStartDate());
 
             Date vacationEnd =
-                    parseDate(associatedVacation.getEndDate());
+                    ValidationUtils.parseDate(associatedVacation.getEndDate());
 
             if (vacationStart == null || vacationEnd == null) {
                 return;
             }
 
-            // B5: Excursion must occur during the vacation.
+            // Excursion must occur during the vacation.
             if (excursionDate.before(vacationStart)
                     || excursionDate.after(vacationEnd)) {
 
@@ -229,7 +222,7 @@ public class ExcursionDetailActivity extends AppCompatActivity {
                 excursion.setId((int) newExcursionId);
 
                 runOnUiThread(() -> {
-                    // B5: Schedule excursion notification.
+                    // Schedule excursion notification.
                     scheduleExcursionAlert(excursion);
 
                     Toast.makeText(
@@ -250,7 +243,7 @@ public class ExcursionDetailActivity extends AppCompatActivity {
                         .update(currentExcursion);
 
                 runOnUiThread(() -> {
-                    // B5: Schedule excursion notification.
+                    // Schedule excursion notification.
                     scheduleExcursionAlert(currentExcursion);
 
                     Toast.makeText(
@@ -288,17 +281,13 @@ public class ExcursionDetailActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Schedules the excursion alert for 9:00 AM
-     * on the excursion date.
-     */
     private void scheduleExcursionAlert(Excursion excursion) {
 
         AlarmManager alarmManager =
                 (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Date excursionDate =
-                parseDate(excursion.getDate());
+                ValidationUtils.parseDate(excursion.getDate());
 
         if (excursionDate == null) {
             return;
@@ -321,10 +310,6 @@ public class ExcursionDetailActivity extends AppCompatActivity {
         );
     }
 
-    /**
-     * Creates the alarm that will trigger
-     * ExcursionAlertReceiver.
-     */
     private void scheduleExcursionAlert(
             AlarmManager alarmManager,
             int requestCode,
@@ -357,42 +342,6 @@ public class ExcursionDetailActivity extends AppCompatActivity {
                     triggerTime,
                     pendingIntent
             );
-        }
-    }
-
-    /**
-     * Validates that the date follows MM/dd/yyyy
-     * and represents a real calendar date.
-     */
-    private boolean isValidDate(String dateString) {
-
-        dateFormat.setLenient(false);
-
-        try {
-            Date date =
-                    dateFormat.parse(dateString);
-
-            return date != null
-                    && dateFormat.format(date)
-                    .equals(dateString);
-
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Converts an MM/dd/yyyy string into a Date.
-     */
-    private Date parseDate(String dateString) {
-
-        dateFormat.setLenient(false);
-
-        try {
-            return dateFormat.parse(dateString);
-
-        } catch (ParseException e) {
-            return null;
         }
     }
 

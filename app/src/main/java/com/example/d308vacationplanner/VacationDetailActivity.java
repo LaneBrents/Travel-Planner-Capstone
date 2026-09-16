@@ -28,8 +28,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.d308vacationplanner.database.AppDatabase;
 import com.example.d308vacationplanner.database.Vacation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -65,8 +63,6 @@ public class VacationDetailActivity extends AppCompatActivity {
     private int vacationId = -1;
     private Vacation currentVacation;
 
-    private final SimpleDateFormat dateFormat =
-            new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,14 +215,14 @@ public class VacationDetailActivity extends AppCompatActivity {
         String startDate = startDateEditText.getText().toString().trim();
         String endDate = endDateEditText.getText().toString().trim();
 
-        if (title.length() > 100) {
-            titleEditText.setError("Vacation title must be 100 characters or less");
+        if (!ValidationUtils.isValidTitle(title)) {
+            titleEditText.setError("Vacation title must be between 1 and 100 characters");
             titleEditText.requestFocus();
             return;
         }
 
-        if (hotel.length() > 100) {
-            hotelEditText.setError("Hotel or place must be 100 characters or less");
+        if (!ValidationUtils.isValidLocation(hotel)) {
+            hotelEditText.setError("Hotel or place must be between 1 and 100 characters");
             hotelEditText.requestFocus();
             return;
         }
@@ -255,20 +251,20 @@ public class VacationDetailActivity extends AppCompatActivity {
             return;
         }
 
-        if (!isValidDate(startDate)) {
-            startDateEditText.setError("Use the format MM/dd/yyyy");
+        if (!ValidationUtils.isValidDate(startDate)) {
+            startDateEditText.setError("Enter a valid date (MM/dd/yyyy)");
             startDateEditText.requestFocus();
             return;
         }
 
-        if (!isValidDate(endDate)) {
-            endDateEditText.setError("Use the format MM/dd/yyyy");
+        if (!ValidationUtils.isValidDate(endDate)) {
+            endDateEditText.setError("Enter a valid date (MM/dd/yyyy)");
             endDateEditText.requestFocus();
             return;
         }
 
-        Date startDateValue = parseDate(startDate);
-        Date endDateValue = parseDate(endDate);
+        Date startDateValue = ValidationUtils.parseDate(startDate);
+        Date endDateValue = ValidationUtils.parseDate(endDate);
 
         if (startDateValue == null || endDateValue == null) {
             return;
@@ -339,8 +335,8 @@ public class VacationDetailActivity extends AppCompatActivity {
         AlarmManager alarmManager =
                 (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        Date startDate = parseDate(vacation.getStartDate());
-        Date endDate = parseDate(vacation.getEndDate());
+        Date startDate = ValidationUtils.parseDate(vacation.getStartDate());
+        Date endDate = ValidationUtils.parseDate(vacation.getEndDate());
 
         if (startDate == null || endDate == null) {
             return;
@@ -429,29 +425,6 @@ public class VacationDetailActivity extends AppCompatActivity {
         }
 
         pendingIntent.cancel();
-    }
-
-    private boolean isValidDate(String dateString) {
-        dateFormat.setLenient(false);
-
-        try {
-            Date date = dateFormat.parse(dateString);
-
-            return date != null
-                    && dateFormat.format(date).equals(dateString);
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
-    private Date parseDate(String dateString) {
-        dateFormat.setLenient(false);
-
-        try {
-            return dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            return null;
-        }
     }
 
     private void requestNotificationPermission() {

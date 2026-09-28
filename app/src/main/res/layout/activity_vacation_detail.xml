@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Screen Title -->
+        <TextView
+            android:id="@+id/textViewVacationDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vacation Details"
+            android:textColor="@android:color/black"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Vacation Information Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vacation Information"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vacation Title"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextVacationTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter vacation title"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Hotel or Place"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextVacationHotel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter hotel or place"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Start Date"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextVacationStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="MM/dd/yyyy"
+            android:inputType="date"
+            android:minHeight="48dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="End Date"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextVacationEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="MM/dd/yyyy"
+            android:inputType="date"
+            android:minHeight="48dp"
+            android:singleLine="true" />
+
+        <!-- Vacation Actions -->
+        <Button
+            android:id="@+id/buttonSaveVacation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Save Vacation" />
+
+        <Button
+            android:id="@+id/buttonDeleteVacation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Delete Vacation"
+            android:contentDescription="Delete this vacation"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonShareVacation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Share Vacation Details"
+            android:visibility="gone" />
+
+        <!-- Vacation Alerts Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Vacation Alerts"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <CheckBox
+            android:id="@+id/checkBoxStartAlert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alert me when the vacation starts" />
+
+        <CheckBox
+            android:id="@+id/checkBoxEndAlert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alert me when the vacation ends" />
+
+        <!-- Excursions Section -->
+        <TextView
+            android:id="@+id/textViewExcursionsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Excursions"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textViewNoExcursions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="No excursions added yet."
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewExcursions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:nestedScrollingEnabled="false" />
+
+        <Button
+            android:id="@+id/buttonAddExcursion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Add Excursion" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -1,29 +1,220 @@
-<strong>**DO NOT DISTRIBUTE OR PUBLICLY POST SOLUTIONS TO THESE LABS. MAKE ALL FORKS OF THIS REPOSITORY WITH SOLUTION CODE PRIVATE. PLEASE REFER TO THE STUDENT CODE OF CONDUCT AND ETHICAL EXPECTATIONS FOR COLLEGE OF INFORMATION TECHNOLOGY STUDENTS FOR SPECIFICS. **</strong>
+# Travel Planner -- Software Engineering Capstone
 
-# WESTERN GOVERNORS UNIVERSITY 
-## D424 – SOFTWARE ENGINEERING CAPSTONE
-Welcome to Software Engineering Capstone! This is an opportunity for students to develop full stack software engineering documentation and applications. They will execute documentation, unit testing, revision of software applications, and deploy software applications with scripts and containers on a cloud platform.
+A native Android vacation and itinerary management application built
+with Java, Room, and SQLite. The application allows users to organize
+vacations and excursions, search stored vacation records, generate an
+itinerary report, configure vacation alerts, and share vacation
+information.
 
-FOR SPECIFIC TASK INSTRUCTIONS AND REQUIREMENTS FOR THIS ASSESSMENT, PLEASE REFER TO THE COURSE PAGE.
-BASIC INSTRUCTIONS
-For this assessment, you will deploy your developed full stack software product to a web service of your choice.
+## Overview
 
+The Travel Planner was developed as a software engineering capstone
+based on an existing Android vacation-planning application. The project
+focuses on extending the application with database-backed search,
+reporting, validation, object-oriented design, automated testing,
+configurable alerts, and release deployment.
 
-## SUPPLEMENTAL RESOURCES  
-1.	How to clone a project to IntelliJ using Git?
+The application stores vacation and excursion data locally using Room
+over SQLite, so its core functionality does not require a cloud database
+or application server.
 
-> Ensure that you have Git installed on your system and that IntelliJ is installed using [Toolbox](https://www.jetbrains.com/toolbox-app/). Make sure that you are using version 2022.3.2. Once this has been confirmed, click the clone button and use the 'IntelliJ IDEA (HTTPS)' button. This will open IntelliJ with a prompt to clone the proejct. Save it in a safe location for the directory and press clone. IntelliJ will prompt you for your credentials. Enter in your WGU Credentials and the project will be cloned onto your local machine.  
+## Features
 
-2. How to create a branch and start Development?
+-   Create, view, update, and delete vacations
+-   Add, edit, and delete excursions associated with a vacation
+-   Store vacation title, lodging, start date, and end date
+-   Validate vacation titles, lodging information, and dates
+-   Validate excursion dates against the associated vacation period
+-   Search vacations by title or hotel
+-   Return multiple matching vacation records from a database search
+-   Generate an on-screen itinerary report
+-   Display report generation date and time
+-   Display vacation, hotel, dates, and excursion-count information in
+    report columns
+-   Configure vacation start and end notifications
+-   Schedule Android alarms for selected vacation alerts
+-   Request notification permission on supported Android versions
+-   Share vacation information using Android sharing functionality
+-   Protect vacation deletion when associated excursions exist
+-   Persist data locally with Room/SQLite
 
-- GitLab method
-> Press the '+' button located near your branch name. In the dropdown list, press the 'New branch' button. This will allow you to create a name for your branch. Once the branch has been named, you can select 'Create Branch' to push the branch to your repository.
+## Technical Highlights
 
-- IntelliJ method
-> In IntelliJ, Go to the 'Git' button on the top toolbar. Select the new branch option and create a name for the branch. Make sure checkout branch is selected and press create. You can now add a commit message and push the new branch to the local repo.
+### Object-Oriented Design
 
-## SUPPORT
-If you need additional support, please navigate to the course page and reach out to your course instructor.
+The application uses an abstract `TravelItem` class as a common
+abstraction for travel records. `Vacation` and `Excursion` extend
+`TravelItem` and provide their own implementations of item type and
+display date behavior.
 
-## FUTURE USE
-Take this opportunity to create or add to a simple resume portfolio to highlight and showcase your work for future use in career search, experience, and education!
+A `TravelItemFormatter` provides reusable formatting based on the shared
+abstraction.
+
+### Database Design
+
+Room provides the persistence layer over SQLite.
+
+The database contains:
+
+-   `Vacation`
+-   `Excursion`
+
+Excursions store a `vacationId` so that each excursion is associated
+with its parent vacation.
+
+The application uses DAO interfaces for database operations rather than
+placing SQL operations directly in the activities.
+
+### Search
+
+Vacation searches are implemented through `VacationDao`. The search
+checks both vacation title and hotel fields and returns all matching
+records ordered by start date.
+
+``` sql
+SELECT * FROM vacations
+WHERE title LIKE '%' || :searchText || '%'
+   OR hotel LIKE '%' || :searchText || '%'
+ORDER BY startDate ASC
+```
+
+### Reporting
+
+The application generates a consolidated vacation report through a Room
+query and `VacationReportRow` projection.
+
+The report includes:
+
+-   Vacation
+-   Hotel
+-   Start Date
+-   End Date
+-   Excursion Count
+
+The report also displays the date and time at which it was generated.
+
+### Validation
+
+Validation logic is centralized in the final `ValidationUtils` utility
+class.
+
+Validation includes:
+
+-   Strict `MM/dd/yyyy` date validation
+-   Vacation and excursion date parsing
+-   Required title validation
+-   Maximum title length of 100 characters
+-   Required location/hotel validation
+-   Maximum location length of 100 characters
+
+### Alerts
+
+Vacation start and end alerts are stored with each vacation and
+scheduled through Android `AlarmManager` and broadcast receivers.
+
+The project includes:
+
+-   `VacationAlertReceiver`
+-   `ExcursionAlertReceiver`
+-   Notification permission handling
+-   Separate alert settings for vacation start and end dates
+
+## Testing
+
+JUnit tests are included for reusable validation logic.
+
+Current unit-test coverage includes:
+
+-   Acceptance of valid dates
+-   Rejection of invalid dates
+-   Acceptance of valid vacation titles
+-   Rejection of titles exceeding the maximum length
+
+The project also includes an Android instrumented test configuration
+using AndroidX Test and Espresso.
+
+## Technologies
+
+| Technology | Purpose | 
+| -------- | -------- | 
+| Java 11 | Application development | 
+| Android SDK | Native Android application platform |
+| Android Studio | Development environment |
+| Room 2.6.1 | Persistence layer |
+| SQLite | Local database |
+| JUnit | Unit testing |
+| Gradle | Build automation |
+| Git / GitHub | Version control and source hosting |
+
+## Project Structure
+
+``` text
+app/
+└── src/
+    ├── main/
+    │   ├── java/com/example/d308vacationplanner/
+    │   │   ├── adapter/
+    │   │   ├── database/
+    │   │   ├── MainActivity.java
+    │   │   ├── VacationListActivity.java
+    │   │   ├── VacationDetailActivity.java
+    │   │   ├── ExcursionDetailActivity.java
+    │   │   ├── ReportActivity.java
+    │   │   ├── ValidationUtils.java
+    │   │   ├── TravelItemFormatter.java
+    │   │   └── *AlertReceiver.java
+    │   └── res/
+    ├── test/
+    └── androidTest/
+```
+
+## Getting Started
+
+### Requirements
+
+-   Android Studio
+-   Java 11
+-   Android SDK
+-   Android emulator or compatible Android device
+
+### Build
+
+Clone the repository and open it in Android Studio.
+
+Then allow Gradle to synchronize the project and run the application on
+an emulator or compatible Android device.
+
+The project uses:
+
+``` text
+minSdk 26
+targetSdk 37
+Room 2.6.1
+```
+
+## Release Deployment
+
+The completed application was built as a signed Android APK and deployed
+through a GitHub Pages project site.
+
+[Travel Planner
+Deployment](https://lanebrents.github.io/travel-planner-deployment/)
+
+## Engineering Focus
+
+This project demonstrates practical software engineering work across:
+
+-   Android application development
+-   Object-oriented programming
+-   Local relational data persistence
+-   DAO-based database access
+-   Input validation
+-   Automated testing
+-   Search and reporting
+-   Android notifications and alarms
+-   Regression-focused enhancement of an existing application
+-   Production APK creation and deployment
+
+## Author
+
+**Lane Brents**
